@@ -1,5 +1,7 @@
 mod metadata;
 mod service;
+mod message;
+mod field;
 
 use std::fs::File;
 use std::io::Read;
@@ -8,6 +10,7 @@ use std::path::PathBuf;
 use anyhow::Result;
 use prost_reflect::prost_types::FileDescriptorProto;
 use regex::Regex;
+use crate::parser::message::parse_message;
 use crate::parser::metadata::{parse_package, parse_syntax};
 use crate::parser::service::parse_service;
 
@@ -72,7 +75,9 @@ pub(crate) fn parse_protobuf_file(proto_file: &PathBuf) -> Result<FileDescriptor
     // Use the regex to get a full list of tokens
     let mut tokens = token_regex.captures_iter(&input_content)
         .filter_map(|c| c.name("token"))
-        .map(|m| m.as_str());
+        .map(|m| m.as_str())
+        .into_iter()
+        .peekable();
 
     // File descriptor to build
     let mut file_descriptor_proto = FileDescriptorProto {
@@ -93,6 +98,7 @@ pub(crate) fn parse_protobuf_file(proto_file: &PathBuf) -> Result<FileDescriptor
     // Package name
     let mut package = String::new();
 
+    // Iterate tokens
     loop {
         // Get the next token or break
         let token = match tokens.next() {
@@ -112,6 +118,11 @@ pub(crate) fn parse_protobuf_file(proto_file: &PathBuf) -> Result<FileDescriptor
                 let service = parse_service(&package, &mut tokens)?;
 
                 file_descriptor_proto.service.push(service);
+            }
+            "message" => {
+                let message = parse_message(&package, &mut tokens)?;
+
+                file_descriptor_proto.message_type.push(message);
             }
             unknown => {
                 println!("Unexpected token in proto file: {}", unknown);

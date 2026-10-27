@@ -2,13 +2,14 @@ use anyhow::{anyhow, Result};
 use prost_reflect::prost_types::{MethodDescriptorProto, ServiceDescriptorProto};
 
 /// Parse an RPC input or output type
-fn parse_input_output<'t, T>(rpc_name: &str, tokens: &mut T) -> Result<(bool, String)>
+fn parse_input_output<'t, T>(tokens: &mut T) -> Result<(bool, String)>
 where
     T: Iterator<Item = &'t str>
 {
     let mut message_type = "";
     let mut streaming = false;
 
+    // Iterate tokens
     loop {
         match tokens.next() {
             Some(token) => {
@@ -63,13 +64,13 @@ where
     };
 
     // Input request type
-    let (client_stream, input_type) = parse_input_output(name, tokens)?;
+    let (client_stream, input_type) = parse_input_output(tokens)?;
 
     // "returns"
     _ = tokens.next();
 
     // Output response type
-    let (server_stream, output_type) = parse_input_output(name, tokens)?;
+    let (server_stream, output_type) = parse_input_output(tokens)?;
 
     // Set client and server streaming as expected
     if client_stream { method_descriptor_proto.client_streaming = Some(true); }
@@ -85,8 +86,7 @@ where
         method_descriptor_proto.output_type = Some(format!("{}.{}", prefix, output_type));
     }
 
-    // TODO: Return the real thing
-    Ok(MethodDescriptorProto::default())
+    Ok(method_descriptor_proto)
 }
 
 /// Parse an RPC service
@@ -110,6 +110,7 @@ where
         options: None,
     };
 
+    // Iterate tokens
     loop {
         // Get the next token or break
         let token = match tokens.next() {
