@@ -8,7 +8,7 @@ use regex::Regex;
 /// Regex to capture a message
 const REGEX_MESSAGE: &str = r"(?m)^message (?P<message_name_nofields>\S+?) \{\s*\}$|^message (?P<message_name_fields>\S+?) \{(?P<message_content>(\n|.)+?)^\}$";
 
-const REGEX_FIELDS: &str = r"(?m)^  (?P<field_type>\S+?) (?P<field_name>\S+?) = (?P<field_number>\d+);";
+const REGEX_FIELDS: &str = r"(?m)^  (?P<field_type>\S+?)\s+?(?P<field_name>\S+?)\s+?= (?P<field_number>\d+);";
 
 const REGEX_ONEOF: &str = r"(?m)^  oneof (?P<oneof_name>.+?) \{(?P<oneof_content>(\n|.)+?)\}";
 
