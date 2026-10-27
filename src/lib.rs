@@ -5,11 +5,13 @@ use bytes::Bytes;
 use prost_reflect::prost::Message;
 use prost_reflect::prost_types::{FileDescriptorProto, FileDescriptorSet};
 use regex::Regex;
-use crate::message::parse_messages;
-use crate::service::parse_service;
+use crate::messageV1::parse_messages;
+use crate::serviceV1::parse_service;
 
-mod service;
-pub mod message;
+#[allow(non_snake_case)]
+mod serviceV1;
+#[allow(non_snake_case)]
+pub mod messageV1;
 
 /// Regex to capture protobuf metadata
 const REGEX_PROTOBUF: &str = r#"syntax = "(?P<syntax>.+?)";
@@ -37,7 +39,7 @@ fn parse_proto_metadata(input_content: &str) -> Result<(String, String)> {
 }
 
 #[test]
-fn parse_vad_proto() {
+fn v1_parse_vad_proto() {
 
     let mut input_file = File::open("./proto/vad.proto").unwrap();
     let mut input_content = String::new();
