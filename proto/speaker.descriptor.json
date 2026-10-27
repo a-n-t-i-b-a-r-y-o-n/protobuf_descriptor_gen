@@ -1,0 +1,71 @@
+{
+  "file": [
+    {
+      "name": "input.proto",
+      "package": "speaker",
+      "messageType": [
+        {
+          "name": "PlaybackReply",
+          "field": [
+            {
+              "name": "is_success",
+              "number": 1,
+              "label": "LABEL_OPTIONAL",
+              "type": "TYPE_BOOL",
+              "jsonName": "isSuccess"
+            },
+            {
+              "name": "message",
+              "number": 2,
+              "label": "LABEL_OPTIONAL",
+              "type": "TYPE_STRING",
+              "jsonName": "message"
+            }
+          ]
+        },
+        {
+          "name": "PlayFileRequest",
+          "field": [
+            {
+              "name": "filename",
+              "number": 1,
+              "label": "LABEL_OPTIONAL",
+              "type": "TYPE_STRING",
+              "jsonName": "filename"
+            }
+          ]
+        },
+        {
+          "name": "PlayBytesRequest",
+          "field": [
+            {
+              "name": "audio_bytes",
+              "number": 1,
+              "label": "LABEL_OPTIONAL",
+              "type": "TYPE_BYTES",
+              "jsonName": "audioBytes"
+            }
+          ]
+        }
+      ],
+      "service": [
+        {
+          "name": "Speaker",
+          "method": [
+            {
+              "name": "PlayFile",
+              "inputType": ".speaker.PlayFileRequest",
+              "outputType": ".speaker.PlaybackReply"
+            },
+            {
+              "name": "PlayBytes",
+              "inputType": ".speaker.PlayBytesRequest",
+              "outputType": ".speaker.PlaybackReply"
+            }
+          ]
+        }
+      ],
+      "syntax": "proto3"
+    }
+  ]
+}

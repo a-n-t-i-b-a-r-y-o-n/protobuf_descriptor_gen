@@ -21,11 +21,11 @@ fn parse_methods(service_content: &str, prefix: &str) -> Result<Vec<MethodDescri
             None => return Err(anyhow!("Failed to parse method name")),
         };
 
-        let client_streaming = Some(rpc.name("request_stream").is_some());
+        let client_streaming = rpc.name("request_stream").map(|_| true);
 
         let input_type = rpc.name("request").map(|m| format!("{}.{}", prefix, m.as_str()));
 
-        let server_streaming = Some(rpc.name("response_stream").is_some());
+        let server_streaming = rpc.name("response_stream").map(|_| true);
 
         let output_type = rpc.name("response").map(|m| format!("{}.{}", prefix, m.as_str()));
 

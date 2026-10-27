@@ -1,0 +1,15 @@
+syntax = "proto3";
+package tts;
+
+service TextToSpeech {
+  rpc SpeakTextToBytes (SpeakRequestDTO) returns (SpeakResponseBytesDTO);
+}
+
+message SpeakRequestDTO {
+  string message = 1;
+  string voice = 2;
+}
+
+message SpeakResponseBytesDTO {
+  bytes audio_bytes = 1;
+}

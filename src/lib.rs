@@ -1,7 +1,8 @@
 use std::fs::File;
 use std::io::Read;
 use anyhow::{anyhow, Result};
-use prost_reflect::DescriptorPool;
+use bytes::Bytes;
+use prost_reflect::prost::Message;
 use prost_reflect::prost_types::{FileDescriptorProto, FileDescriptorSet};
 use regex::Regex;
 use crate::message::parse_messages;
@@ -35,16 +36,17 @@ fn parse_proto_metadata(input_content: &str) -> Result<(String, String)> {
     Ok((String::from(syntax), String::from(package)))
 }
 
-fn main() -> Result<()> {
+#[test]
+fn parse_vad_proto() {
 
-    let mut input_file = File::open("./proto/vad.proto")?;
+    let mut input_file = File::open("./proto/vad.proto").unwrap();
     let mut input_content = String::new();
-    input_file.read_to_string(&mut input_content)?;
+    input_file.read_to_string(&mut input_content).unwrap();
 
-    let (syntax, package) = parse_proto_metadata(&input_content)?;
-    let service = parse_service(&input_content, &package)?;
+    let (syntax, package) = parse_proto_metadata(&input_content).unwrap();
+    let service = parse_service(&input_content, &package).unwrap();
 
-    let messages = parse_messages(&input_content, 0, &format!(".{}", package))?;
+    let messages = parse_messages(&input_content, 0, &format!(".{}", package)).unwrap();
 
     let file_descriptor = FileDescriptorProto {
         name: Some(String::from("vad.proto")),
@@ -61,12 +63,15 @@ fn main() -> Result<()> {
         syntax: Some(syntax),
     };
 
-    let descriptor_set = FileDescriptorSet {
+    let handmade_descriptor_set = FileDescriptorSet {
         file: vec!(file_descriptor),
     };
 
-    // TODO: Use the DescriptorPool
-    let _descriptor_pool = DescriptorPool::from_file_descriptor_set(descriptor_set)?;
+    let mut example_file = File::open("./proto/vad.descriptor.bin").unwrap();
+    let mut bytes = vec!();
+    example_file.read_to_end(&mut bytes).unwrap();
 
-    Ok(())
+    let proper_descriptor_set = FileDescriptorSet::decode(Bytes::from(bytes)).unwrap();
+
+    assert_eq!(handmade_descriptor_set, proper_descriptor_set);
 }

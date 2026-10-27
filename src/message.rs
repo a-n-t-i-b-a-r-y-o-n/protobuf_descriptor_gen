@@ -181,7 +181,9 @@ pub(crate) fn parse_messages(input_content: &str, nesting: usize, prefix: &str) 
                 .map(|(_, b)| b.clone())
                 .flatten();
 
-            fields.extend(oneof_fields);
+            if nesting == 0 {
+                fields.extend(oneof_fields);
+            }
 
             // Parse nested message types
             let nested_types = parse_messages(&content, nesting + 1, prefix)?;

@@ -1,0 +1,28 @@
+syntax = "proto3";
+package asr;
+
+service SpeechRecognition {
+  /// Transcribe speech from given audio bytes
+  rpc TranscribeFromBytes (TranscribeFromBytesRequestDTO) returns (TranscriptionResponseDTO);
+}
+
+message TranscribeFromBytesRequestDTO {
+  bytes audio_bytes = 1;
+}
+
+message TranscriptionResponseDTO {
+
+  message TranscriptionDTO {
+    string transcription = 1;
+  }
+
+  message ErrorDTO {
+    string message = 1;
+  }
+
+  oneof ContentDTO {
+    TranscriptionDTO transcription = 1;
+
+    ErrorDTO error = 99;
+  }
+}

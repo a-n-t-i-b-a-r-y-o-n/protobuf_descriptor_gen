@@ -1,0 +1,15 @@
+
+Ø
+speaker.protospeaker"H
+PlaybackReply
+
+is_success (R	isSuccess
+message (	Rmessage"-
+PlayFileRequest
+filename (	Rfilename"3
+PlayBytesRequest
+audio_bytes (R
+audioBytes2‡
+Speaker<
+PlayFile.speaker.PlayFileRequest.speaker.PlaybackReply>
+	PlayBytes.speaker.PlayBytesRequest.speaker.PlaybackReplybproto3

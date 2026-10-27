@@ -1,0 +1,24 @@
+syntax = "proto3";
+package speaker;
+
+service Speaker {
+  rpc PlayFile (PlayFileRequest) returns (PlaybackReply);
+  rpc PlayBytes (PlayBytesRequest) returns (PlaybackReply);
+}
+
+message PlaybackReply {
+  // Whether playback was successful
+  bool    is_success = 1;
+  // Informational or error message about playback
+  string  message    = 2;
+}
+
+message PlayFileRequest {
+  // Local path to file to play back
+  string filename = 1;
+}
+
+message PlayBytesRequest {
+  // Audio bytes to play back
+  bytes audio_bytes = 1;
+}

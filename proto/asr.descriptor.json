@@ -1,0 +1,89 @@
+{
+  "file": [
+    {
+      "name": "input.proto",
+      "package": "asr",
+      "messageType": [
+        {
+          "name": "TranscribeFromBytesRequestDTO",
+          "field": [
+            {
+              "name": "audio_bytes",
+              "number": 1,
+              "label": "LABEL_OPTIONAL",
+              "type": "TYPE_BYTES",
+              "jsonName": "audioBytes"
+            }
+          ]
+        },
+        {
+          "name": "TranscriptionResponseDTO",
+          "field": [
+            {
+              "name": "transcription",
+              "number": 1,
+              "label": "LABEL_OPTIONAL",
+              "type": "TYPE_MESSAGE",
+              "typeName": ".asr.TranscriptionResponseDTO.TranscriptionDTO",
+              "oneofIndex": 0,
+              "jsonName": "transcription"
+            },
+            {
+              "name": "error",
+              "number": 99,
+              "label": "LABEL_OPTIONAL",
+              "type": "TYPE_MESSAGE",
+              "typeName": ".asr.TranscriptionResponseDTO.ErrorDTO",
+              "oneofIndex": 0,
+              "jsonName": "error"
+            }
+          ],
+          "nestedType": [
+            {
+              "name": "TranscriptionDTO",
+              "field": [
+                {
+                  "name": "transcription",
+                  "number": 1,
+                  "label": "LABEL_OPTIONAL",
+                  "type": "TYPE_STRING",
+                  "jsonName": "transcription"
+                }
+              ]
+            },
+            {
+              "name": "ErrorDTO",
+              "field": [
+                {
+                  "name": "message",
+                  "number": 1,
+                  "label": "LABEL_OPTIONAL",
+                  "type": "TYPE_STRING",
+                  "jsonName": "message"
+                }
+              ]
+            }
+          ],
+          "oneofDecl": [
+            {
+              "name": "ContentDTO"
+            }
+          ]
+        }
+      ],
+      "service": [
+        {
+          "name": "SpeechRecognition",
+          "method": [
+            {
+              "name": "TranscribeFromBytes",
+              "inputType": ".asr.TranscribeFromBytesRequestDTO",
+              "outputType": ".asr.TranscriptionResponseDTO"
+            }
+          ]
+        }
+      ],
+      "syntax": "proto3"
+    }
+  ]
+}

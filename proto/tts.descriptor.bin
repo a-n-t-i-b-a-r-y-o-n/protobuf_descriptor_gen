@@ -1,0 +1,11 @@
+
+ë
+	tts.prototts"A
+SpeakRequestDTO
+message (	Rmessage
+voice (	Rvoice"8
+SpeakResponseBytesDTO
+audio_bytes (R
+audioBytes2T
+TextToSpeechD
+SpeakTextToBytes.tts.SpeakRequestDTO.tts.SpeakResponseBytesDTObproto3
