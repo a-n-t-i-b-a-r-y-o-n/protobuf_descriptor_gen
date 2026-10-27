@@ -2,6 +2,7 @@
 name = "protobuf_descriptor_gen"
 version = "0.0.1"
 edition = "2024"
+authors = ["antibaryon"]
 
 [dependencies]
 anyhow = "1"
