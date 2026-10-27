@@ -1,0 +1,116 @@
+{
+  "file": [
+    {
+      "name": "input.proto",
+      "package": "vad",
+      "messageType": [
+        {
+          "name": "StartDetectionRequestDTO"
+        },
+        {
+          "name": "DetectionEventDTO",
+          "field": [
+            {
+              "name": "detection_start",
+              "number": 1,
+              "label": "LABEL_OPTIONAL",
+              "type": "TYPE_MESSAGE",
+              "typeName": ".vad.DetectionEventDTO.DetectionStartEventDTO",
+              "oneofIndex": 0,
+              "jsonName": "detectionStart"
+            },
+            {
+              "name": "voice_start",
+              "number": 2,
+              "label": "LABEL_OPTIONAL",
+              "type": "TYPE_MESSAGE",
+              "typeName": ".vad.DetectionEventDTO.VoiceStartEventDTO",
+              "oneofIndex": 0,
+              "jsonName": "voiceStart"
+            },
+            {
+              "name": "voice_stop",
+              "number": 3,
+              "label": "LABEL_OPTIONAL",
+              "type": "TYPE_MESSAGE",
+              "typeName": ".vad.DetectionEventDTO.VoiceStopEventDTO",
+              "oneofIndex": 0,
+              "jsonName": "voiceStop"
+            },
+            {
+              "name": "detection_stop",
+              "number": 4,
+              "label": "LABEL_OPTIONAL",
+              "type": "TYPE_MESSAGE",
+              "typeName": ".vad.DetectionEventDTO.DetectionStopEventDTO",
+              "oneofIndex": 0,
+              "jsonName": "detectionStop"
+            }
+          ],
+          "nestedType": [
+            {
+              "name": "DetectionStartEventDTO"
+            },
+            {
+              "name": "DetectionStopEventDTO",
+              "field": [
+                {
+                  "name": "output_filename",
+                  "number": 1,
+                  "label": "LABEL_OPTIONAL",
+                  "type": "TYPE_STRING",
+                  "oneofIndex": 0,
+                  "jsonName": "outputFilename"
+                },
+                {
+                  "name": "audio_bytes",
+                  "number": 2,
+                  "label": "LABEL_OPTIONAL",
+                  "type": "TYPE_BYTES",
+                  "oneofIndex": 0,
+                  "jsonName": "audioBytes"
+                }
+              ],
+              "oneofDecl": [
+                {
+                  "name": "output"
+                }
+              ]
+            },
+            {
+              "name": "VoiceStartEventDTO"
+            },
+            {
+              "name": "VoiceStopEventDTO"
+            }
+          ],
+          "oneofDecl": [
+            {
+              "name": "EventDTO"
+            }
+          ]
+        }
+      ],
+      "service": [
+        {
+          "name": "VoiceActivityDetection",
+          "method": [
+            {
+              "name": "DetectVoiceToFile",
+              "inputType": ".vad.StartDetectionRequestDTO",
+              "outputType": ".vad.DetectionEventDTO",
+              "serverStreaming": true
+            },
+            {
+              "name": "DetectVoiceToBytes",
+              "inputType": ".vad.StartDetectionRequestDTO",
+              "outputType": ".vad.DetectionEventDTO",
+              "serverStreaming": true
+            }
+          ]
+        }
+      ],
+      "syntax": "proto3"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+syntax = "proto3";
+package vad;
+
+service VoiceActivityDetection {
+  // Start listening, returning a path to a local file with detected voice
+  rpc DetectVoiceToFile (StartDetectionRequestDTO) returns (stream DetectionEventDTO);
+
+  // Start listening, returning audio bytes with detected voice
+  rpc DetectVoiceToBytes (StartDetectionRequestDTO) returns (stream DetectionEventDTO);
+}
+
+message StartDetectionRequestDTO { }
+
+// Server-side detection event
+message DetectionEventDTO {
+
+  // Detection process started
+  message DetectionStartEventDTO { }
+
+  // Detection process stopped
+  message DetectionStopEventDTO {
+    oneof output {
+      string output_filename = 1;
+      bytes audio_bytes = 2;
+    }
+  }
+
+  // Voice became detected
+  message VoiceStartEventDTO { }
+
+  // Detected voice stopped
+  message VoiceStopEventDTO { }
+
+  // Event type union
+  oneof EventDTO {
+    DetectionStartEventDTO detection_start = 1;
+    VoiceStartEventDTO voice_start = 2;
+    VoiceStopEventDTO voice_stop = 3;
+    DetectionStopEventDTO detection_stop = 4;
+  }
+}

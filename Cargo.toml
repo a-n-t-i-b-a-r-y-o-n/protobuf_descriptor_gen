@@ -1,0 +1,11 @@
+[package]
+name = "protobuf_descriptor_gen"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+anyhow = "1"
+bytes = "1"
+convert_case = "0.12"
+prost-reflect = "0.16"
+regex = "1"
